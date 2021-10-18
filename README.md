@@ -55,7 +55,7 @@ DATA2_PARTITION=/dev/nvme0n1p5
 Для видеокарт AMDGPU https://wiki.gentoo.org/wiki/AMDGPU
 Для видеокарт Nvidia https://wiki.gentoo.org/wiki/NVIDIA/nvidia-drivers/ru ,https://wiki.gentoo.org/wiki/Nouveau , https://wiki.gentoo.org/wiki/NVIDIA/Bumblebee
 Для установки WIFI https://wiki.gentoo.org/wiki/Wifi/ru
-    Настройку зеркал я не делаю так как по умолчанию лучшие зеркала
+    Настройку зеркал я не делаю так как по умолчанию лучшие зеркала.
     Литература по установке Gentoo https://wiki.gentoo.org/wiki/Handbook:AMD64/ru
 
     От автора: Удачной установки!
