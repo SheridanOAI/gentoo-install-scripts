@@ -6,17 +6,17 @@ path3=/usr/src/linux
 setfont UniCyr_8x16
 
     echo 'Подставьте свои места установки разделов (LOCATION)'
- ROOT_LOCATION=/mnt
- BOOT_LOCATION=/mnt/boot/efi
- DATA_LOCATION=/mnt/data
-DATA2_LOCATION=/mnt/data2
+ ROOT_LOCATION=/mnt/gentoo
+ BOOT_LOCATION=/mnt/gentoo/boot/efi
+ DATA_LOCATION=/mnt/gentoo/data
+DATA2_LOCATION=/mnt/gentoo/data2
 
     echo 'Выбор разделов'
- BOOT_PARTITION=/dev/sda1
- SWAP_PARTITION=/dev/nvme0n1p6
- ROOT_PARTITION=/dev/sda4
- DATA_PARTITION=/dev/sda5
-DATA2_PARTITION=/dev/nvme0n1p5
+ BOOT_PARTITION=/dev/xxx
+ SWAP_PARTITION=/dev/xxx
+ ROOT_PARTITION=/dev/xxx
+ DATA_PARTITION=/dev/xxx
+DATA2_PARTITION=/dev/xxx
 
     echo 'Подставьте свой путь к директории где находится архив stage3'
  STAGE3=/mnt/gentoo/data/stage3*
