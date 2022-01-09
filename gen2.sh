@@ -10,7 +10,6 @@ TOOLS="app-admin/sysklogd sys-process/cronie net-misc/dhcpcd net-dialup/ppp sys-
 PACKAGES="sys-fs/ntfs3g kde-apps/konsole app-admin/sudo kde-apps/dolphin www-client/google-chrome kde-apps/kate sys-apps/inxi sys-apps/lm-sensors x11-apps/xdpyinfo"
 
     echo '19. Обновляем окружение'
-env-update
 source /etc/profile
 export PS1="(chroot) $PS1"
     echo '20. Устанавливаем снимок portage'
@@ -29,7 +28,6 @@ echo "ru_RU.UTF-8 UTF-8" >> /etc/locale.gen
 locale-gen
     echo '26. Выставляем язык системы'
 eselect locale set en_US.utf8
-echo "dev-util/cmake -qt5" >> /etc/portage/package.use/zz-autounmask
     echo '27. Обновляем мир'
 emerge world -uDNav
     echo '28. Перезагружаем окружение'
