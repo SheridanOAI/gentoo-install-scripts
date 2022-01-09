@@ -21,8 +21,8 @@ emerge --sync
     echo '22. Выставляем профиль KDE Plasma'
 eselect profile set 8
     echo '23. Выставляем регион'
-    read -p 'TIMEZONE_' TIMEZONE_
-echo "$TIMEZONE_" > /etc/timezone
+#read -p 'TIMEZONE_' TIMEZONE_
+echo "Europe/Moscow" > /etc/timezone
 emerge --config sys-libs/timezone-data
     echo '24. Добавляем русскую локаль системы'
 echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
