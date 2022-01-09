@@ -29,6 +29,8 @@ locale-gen
     echo '26. Выставляем язык системы'
 eselect locale set en_US.utf8
     echo '27. Обновляем мир'
+echo "dev-lang/python -bluetooth" >> /etc/portage/package.use/python
+echo "dev-util/cmake -qt5" >> /etc/portage/package.use/cmake
 emerge world -uDNav
     echo '28. Перезагружаем окружение'
 env-update && source /etc/profile && export PS1="(chroot) ${PS1}"
