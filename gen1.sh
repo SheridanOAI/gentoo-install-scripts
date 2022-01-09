@@ -1,67 +1,78 @@
  #!/bin/bash
 
-path1=/mnt/gentoo
-path2=/
-path3=/usr/src/linux
-setfont UniCyr_8x16
+         path1=/mnt/gentoo
+         path2=/
+         path3=/usr/src/linux
+         setfont UniCyr_8x16
 
-    echo 'Подставьте свои места установки разделов (LOCATION)'
+    echo 'Выбор места установки разделов (LOCATION)'
  ROOT_LOCATION=/mnt/gentoo
- BOOT_LOCATION=/mnt/gentoo/boot/efi
+ BOOT_LOCATION=/mnt/gentoo/boot/efi/
  DATA_LOCATION=/mnt/gentoo/data
 DATA2_LOCATION=/mnt/gentoo/data2
 
-    echo 'Выбор разделов'
- BOOT_PARTITION=/dev/xxx
- SWAP_PARTITION=/dev/xxx
- ROOT_PARTITION=/dev/xxx
- DATA_PARTITION=/dev/xxx
-DATA2_PARTITION=/dev/xxx
+    echo 'Выбор FS ROOT раздела'
+       FS_TYPE=ext4
 
-    echo 'Подставьте свой путь к директории где находится архив stage3'
- STAGE3=/mnt/gentoo/data/stage3*
+       echo 'Подставьте свой путь к директории где находится архив stage3'
+        STAGE3=stage3*
 
-    echo 'Подставьте свой путь к вашему настроеному файлу make.conf'
- MAKE_CONF=/mnt/gentoo/data/make.conf
+    echo 'Выбор файла make.conf для NVIDIA или AMD'
+       MAKE_NV=/mnt/gentoo/gentoo-install-scripts-main/make_nv.conf
+      MAKE_AMD=/mnt/gentoo/gentoo-install-scripts-main/make_amd.conf
 
     echo '01. Форматирование корневого раздела'
-mkfs.ext4 $ROOT_PARTITION -L Gentoo
+read -p 'ROOT_PARTITION_' ROOT_PARTITION_
+mkfs.$FS_TYPE $ROOT_PARTITION_ -L Gentoo
     echo '02. Монтирование корневого раздела'
-mount $ROOT_PARTITION $ROOT_LOCATION
+read -p 'ROOT_PARTITION_' ROOT_PARTITION_
+mount $ROOT_PARTITION_ $ROOT_LOCATION
     echo '03. Создание папок для разделов с данными'
 mkdir /mnt/{data,data2}
     echo '04. Создание папок /boot/efi'
 mkdir -p /mnt/boot/efi
     echo '05. Монтирование загрузочного UEFI раздела'
-mount $BOOT_PARTITION $BOOT_LOCATION
+read -p 'BOOT_PARTITION_' BOOT_PARTITION_
+mount $BOOT_PARTITION_ $BOOT_LOCATION
     echo '06. Монтирование раздела с данными 1'
-mount $DATA_PARTITION $DATA_LOCATION
+read -p 'DATA_PARTITION_' DATA_PARTITION_
+mount $DATA_PARTITION_ $DATA_LOCATION
     echo '07. Монтирование раздела с данными 2'
-mount $DATA2_PARTITION $DATA2_LOCATION
+read -p 'DATA2_PARTITION_' DATA2_PARTITION_
+mount $DATA2_PARTITION_ $DATA2_LOCATION
     echo '08. Монтирование раздела SWAP'
-swapon $SWAP_PARTITION
-
+read -p 'SWAP_PARTITION_' SWAP_PARTITION_
+swapon $SWAP_PARTITION_
     echo '09. Переходим в корень устанавливаемой системы'
 cd $path1
-    echo '10. Копируем архив stage3'
+    echo '10. Скачиваем архив stage3'
+wget https://mirror.yandex.ru/gentoo-distfiles/releases/amd64/autobuilds/20220102T170545Z/stage3-amd64-openrc-20220102T170545Z.tar.xz
+    echo '11. Копируем архив stage3'
 cp $STAGE3 /mnt/gentoo/
-    echo '11. Распаковываем архив stage3'
+    echo '12. Распаковываем архив stage3'
 tar xpvf stage3*.tar.xz --xattrs-include='*.*' --numeric-owner
-    echo '12. Копируем make.conf'
+    echo '13. Копируем make.conf'
+wget https://github.com/SheridanOAI/gentoo-install-scripts/archive/refs/heads/main.zip
+unzip main.zip -d /mnt/gentoo
+    echo '1 - MAKE.CONF-NVIDIA, 2 - MAKE.CONF-AMD'
+    read choice
+      if [[ "$choice" == "1" ]]; then
+MAKE_CONF=$MAKE_NV
+    elif [[ "$choice" == "2" ]]; then
+MAKE_CONF=$MAKE_AMD
+      fi
 cp $MAKE_CONF /mnt/gentoo/etc/portage/make.conf
-    echo '13. Создаём каталог repos.conf'
+    echo '14. Создаём каталог repos.conf'
 mkdir --parents /mnt/gentoo/etc/portage/repos.conf
-    echo '14. Копируем конфигурацию репозитория Gentoo в gentoo.conf'
+    echo '15. Копируем конфигурацию репозитория Gentoo в gentoo.conf'
 cp /mnt/gentoo/usr/share/portage/config/repos.conf /mnt/gentoo/etc/portage/repos.conf/gentoo.conf
-    echo '15. Копирование информации о DNS'
+    echo '16. Копирование информации о DNS'
 cp --dereference /etc/resolv.conf /mnt/gentoo/etc/
-    echo '16. Монтирование необходимых файловых систем'
+    echo '17. Монтирование необходимых файловых систем'
 mount --types proc /proc /mnt/gentoo/proc
 mount --rbind /sys /mnt/gentoo/sys
 mount --make-rslave /mnt/gentoo/sys
 mount --rbind /dev /mnt/gentoo/dev
 mount --make-rslave /mnt/gentoo/dev
-    echo '17. Скрипт gen2.sh который должен быть скопированным в /mnt/gentoo'
-cp /1/gen2.sh /mnt/gentoo/
     echo '18. Переход в новое окружение'
-chroot /mnt/gentoo /bin/bash /gen2.sh
+chroot /mnt/gentoo /bin/bash /mnt/gentoo/gentoo-install-scripts-main/gen2.sh
