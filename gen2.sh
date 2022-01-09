@@ -41,7 +41,7 @@ eselect kernel set 1
     echo '31. Путь к /usr/src/linux'
 cd $path2
     echo '32. Копируем конфиг ядра'
-cp /mnt/gentoo/gentoo-install-scripts-main/config_ryzen /usr/src/linux-5.15.11-gentoo/.config
+cp /gentoo-install-scripts-main/config_ryzen /usr/src/linux-5.15.11-gentoo/.config
     echo '33. Компилируем ядро'
 make -j16 && make modules_install
     echo '34. Копируем ядро в /boot'
