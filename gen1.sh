@@ -28,9 +28,9 @@ mkfs.$FS_TYPE $ROOT_PARTITION_ -L Gentoo
 read -p 'ROOT_PARTITION_' ROOT_PARTITION_
 mount $ROOT_PARTITION_ $ROOT_LOCATION
     echo '03. Создание папок для разделов с данными'
-mkdir /mnt/{data,data2}
+mkdir /mnt/gentoo/{data,data2}
     echo '04. Создание папок /boot/efi'
-mkdir -p /mnt/boot/efi
+mkdir -p /mnt/gentoo/boot/efi
     echo '05. Монтирование загрузочного UEFI раздела'
 read -p 'BOOT_PARTITION_' BOOT_PARTITION_
 mount $BOOT_PARTITION_ $BOOT_LOCATION
@@ -75,4 +75,4 @@ mount --make-rslave /mnt/gentoo/sys
 mount --rbind /dev /mnt/gentoo/dev
 mount --make-rslave /mnt/gentoo/dev
     echo '18. Переход в новое окружение'
-chroot /mnt/gentoo /bin/bash /mnt/gentoo/gentoo-install-scripts-main/gen2.sh
+chroot /mnt/gentoo /bin/bash /gentoo-install-scripts-main/gen2.sh
