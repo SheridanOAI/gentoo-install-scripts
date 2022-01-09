@@ -15,7 +15,7 @@ DATA2_LOCATION=/mnt/gentoo/data2
        FS_TYPE=ext4
 
        echo 'Подставьте свой путь к директории где находится архив stage3'
-        STAGE3=stage3*
+        STAGE3=stage3-amd64-openrc-20220102T170545Z.tar.xz
 
     echo 'Выбор файла make.conf для NVIDIA или AMD'
        MAKE_NV=/mnt/gentoo/gentoo-install-scripts-main/make_nv.conf
@@ -46,7 +46,7 @@ swapon $SWAP_PARTITION_
     echo '09. Переходим в корень устанавливаемой системы'
 cd $path1
     echo '10. Скачиваем архив stage3'
-wget https://mirror.yandex.ru/gentoo-distfiles/releases/amd64/autobuilds/20220102T170545Z/stage3-amd64-openrc-20220102T170545Z.tar.xz
+wget https://mirror.eu.oneandone.net/linux/distributions/gentoo/gentoo/releases/amd64/autobuilds/20220102T170545Z/stage3-amd64-openrc-20220102T170545Z.tar.xz
     echo '11. Копируем архив stage3'
 cp $STAGE3 /mnt/gentoo/
     echo '12. Распаковываем архив stage3'
