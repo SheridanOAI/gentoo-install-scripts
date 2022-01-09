@@ -1,8 +1,7 @@
  #!/bin/bash
 
-path1=/mnt/gentoo
-path2=/
-path3=/usr/src/linux
+path1=/
+path2=/usr/src/linux
 
     echo '(П.36 стр.62) Подставляем необходимые утилиты'
 TOOLS="app-admin/sysklogd sys-process/cronie net-misc/dhcpcd net-dialup/ppp sys-apps/mlocate app-portage/eix sys-fs/genfstab"
@@ -21,8 +20,7 @@ emerge --sync
     echo '22. Выставляем профиль KDE Plasma'
 eselect profile set 8
     echo '23. Выставляем регион'
-#read -p 'TIMEZONE_' TIMEZONE_
-echo "Europe/Moscow" > /etc/timezone
+echo "Europe/Moscow" >> /etc/timezone
 emerge --config sys-libs/timezone-data
     echo '24. Добавляем русскую локаль системы'
 echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
@@ -41,7 +39,7 @@ emerge sys-kernel/gentoo-sources
     echo '30. Устанавливаем символьную ссылку ядра'
 eselect kernel set 1
     echo '31. Путь к /usr/src/linux'
-cd $path3
+cd $path2
     echo '32. Копируем конфиг ядра'
 cp /mnt/gentoo/gentoo-install-scripts-main/config_ryzen /usr/src/linux-5.15.11-gentoo/.config
     echo '33. Компилируем ядро'
