@@ -1,8 +1,8 @@
  #!/bin/bash
 
-         path1=/mnt/gentoo
-         path2=/
-        setfont UniCyr_8x16
+          path1=/mnt/gentoo
+          path2=/
+          setfont UniCyr_8x16
 
     echo 'Выбор места установки разделов (LOCATION)'
  ROOT_LOCATION=/mnt/gentoo
@@ -12,9 +12,6 @@ DATA2_LOCATION=/mnt/gentoo/data2
 
     echo 'Выбор FS ROOT раздела'
        FS_TYPE=ext4
-
-       echo 'Подставьте свой путь к директории где находится архив stage3'
-        STAGE3=stage3-amd64-openrc-20220109T170538Z.tar.xz
 
     echo 'Выбор файла make.conf для NVIDIA или AMD'
        MAKE_NV=/mnt/gentoo/gentoo-install-scripts-main/make_nv.conf
@@ -47,7 +44,7 @@ cd $path1
     echo '10. Скачиваем архив stage3'
 wget https://mirror.yandex.ru/gentoo-distfiles/releases/amd64/autobuilds/20220109T170538Z/stage3-amd64-openrc-20220109T170538Z.tar.xz
     echo '11. Копируем архив stage3'
-cp $STAGE3 /mnt/gentoo/
+cp stage3* /mnt/gentoo/
     echo '12. Распаковываем архив stage3'
 tar xpvf stage3*.tar.xz --xattrs-include='*.*' --numeric-owner
     echo '13. Копируем make.conf'
