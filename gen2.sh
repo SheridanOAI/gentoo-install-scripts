@@ -3,10 +3,10 @@
 path1=/
 path2=/usr/src/linux
 
-    echo '(П.36 стр.62) Подставляем необходимые утилиты'
+    echo '(П.36 стр.61) Подставляем необходимые утилиты'
 TOOLS="app-admin/sysklogd sys-process/cronie net-misc/dhcpcd net-dialup/ppp sys-apps/mlocate app-portage/eix sys-fs/genfstab"
 
-    echo '(П.46 стр.91) Подставляем необходимые базовые пакеты'
+    echo '(П.46 стр.93) Подставляем необходимые базовые пакеты'
 PACKAGES="sys-fs/ntfs3g kde-apps/konsole app-admin/sudo kde-apps/dolphin www-client/google-chrome kde-apps/kate sys-apps/inxi sys-apps/lm-sensors x11-apps/xdpyinfo"
 
     echo '19. Обновляем окружение'
@@ -39,62 +39,62 @@ env-update && source /etc/profile && export PS1="(chroot) ${PS1}"
 emerge sys-kernel/gentoo-sources
     echo '30. Устанавливаем символьную ссылку ядра'
 eselect kernel set 1
-    echo '31. Путь к /usr/src/linux'
-cd $path2
-    echo '32. Копируем конфиг ядра'
-cp /gentoo-install-scripts-main/config_ryzen /usr/src/linux-5.15.11-gentoo/.config
-    echo '33. Компилируем ядро'
-make -j16 && make modules_install
-    echo '34. Копируем ядро в /boot'
-make install
-    echo '35. Устанавливаем genkernel и обновляем initramfs'
+    echo '31. Устанавливаем genkernel'
 emerge sys-kernel/genkernel
-genkernel --install initramfs
-    echo '36. Устанавливаем имя компьютера'
+    echo '32. Путь к /usr/src/linux'
+cd $path2
+    echo '1 - Ryzen-2700, 2 - GENKERNEL ALL'
+    read choice
+    if [[ "$choice" == "1" ]]; then
+cp /gentoo-install-scripts-main/config_ryzen /usr/src/linux/.config && make -j16 && make modules_install && make install && genkernel --install initramfs
+    elif [[ "$choice" == "2" ]]; then
+genkernel all && genkernel --install initramfs
+      fi
+    echo '33. Устанавливаем имя компьютера'
     read -p 'HOSTNAME_' HOSTNAME_
   sed -i "s/localhost/$HOSTNAME_/g" /etc/conf.d/hostname
-    echo '37 Устанавливаем среду управления сетевыми интерфесами'
+    echo '34 Устанавливаем среду управления сетевыми интерфесами'
 emerge --noreplace netifrc
-    echo '38. Устанавливаем пароль root'
+    echo '35. Устанавливаем пароль root'
 passwd
-    echo '39. Установка системных программ'
+    echo '36. Установка системных программ'
 emerge $TOOLS
 rc-update add sysklogd default
 rc-update add cronie default
 rc-update add sshd default
 eix-update
-    echo '40. Генерируем fstab'
+    echo '37. Генерируем fstab'
 genfstab -U / >> /etc/fstab
-    echo '41. Установка пакетов загрузчика'
+    echo '38. Установка пакетов загрузчика'
 emerge --ask sys-boot/os-prober
 etc-update --automode -3
 emerge sys-boot/os-prober
-    echo '42. Выбор диска устанавки GRUB'
+    echo '39. Выбор диска устанавки GRUB'
 read -p 'DISK_' DISK_
 grub-install $DISK_
 echo "GRUB_DISABLE_OS_PROBER=false" >> /etc/default/grub
-    echo '43. Обновление GRUB'
+    echo '40. Обновление GRUB'
 grub-mkconfig -o /boot/grub/grub.cfg
-    echo '44. Обновляем окружение'
+    echo '41. Обновляем окружение'
 env-update && source /etc/profile && export PS1="(chroot) ${PS1}"
-    echo '45. Устанавливаем DE KDE Plasma'
+    echo '42. Устанавливаем DE KDE Plasma'
 emerge --ask kde-plasma/plasma-meta
 etc-update --automode -3
 emerge kde-plasma/plasma-meta
-    echo '46. Создаём пользователя'
+    echo '43. Создаём пользователя'
 read -p 'USERNAME_' USERNAME_
 useradd -m -G users,wheel,audio,video -s /bin/bash $USERNAME_
-    echo '47. Вписываем такое же имя пользователя'
+    echo '44. Вписываем такое же имя пользователя'
 read -p 'USERNAME_' USERNAME_
 passwd $USERNAME_
-    echo '48. Включаем daemon NetworkManager'
+    echo '45. Включаем daemon NetworkManager'
 rc-update add NetworkManager default
-    echo '49. Установка необходимых пакетов'
+    echo '46. Установка необходимых пакетов'
 emerge $PACKAGES
-    echo '50. Раскоментируем %wheel ALL=(ALL) ALL в sudoers'
+    echo '47. Раскоментируем %wheel ALL=(ALL) ALL в sudoers'
 sed -i 's/# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
-    echo '51. Замена xdm на sddm в display-manager'
+    echo '48. Замена xdm на sddm в display-manager'
 sed -i 's/DISPLAYMANAGER="xdm"/DISPLAYMANAGER="sddm"/' /etc/conf.d/display-manager
-    echo '52. Включаем daemon display-manager'
+    echo '49. Включаем daemon display-manager'
 rc-update add display-manager default
 exit
