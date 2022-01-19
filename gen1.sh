@@ -42,7 +42,7 @@ swapon $SWAP_PARTITION_
     echo '09. Переходим в корень устанавливаемой системы'
 cd $path1
     echo '10. Скачиваем архив stage3'
-wget https://mirror.yandex.ru/gentoo-distfiles/releases/amd64/autobuilds/20220116T170534Z/stage3-amd64-openrc-20220116T170534Z.tar.xz
+wget https://mirror.yandex.ru/gentoo-distfiles/releases/amd64/autobuilds/current-stage3-amd64-openrc/stage3-amd64-openrc*.tar.xz
     echo '11. Копируем архив stage3'
 cp stage3* /mnt/gentoo/
     echo '12. Распаковываем архив stage3'
