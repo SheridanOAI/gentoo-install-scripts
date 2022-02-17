@@ -72,7 +72,7 @@ emerge sys-boot/os-prober
     echo '39. Выбор диска устанавки GRUB'
 read -p 'DISK_' DISK_
 grub-install $DISK_
-echo "GRUB_DISABLE_OS_PROBER=false" >> /etc/default/grub
+#echo "GRUB_DISABLE_OS_PROBER=false" >> /etc/default/grub
     echo '40. Обновление GRUB'
 grub-mkconfig -o /boot/grub/grub.cfg
     echo '41. Обновляем окружение'
