@@ -7,7 +7,7 @@ path2=/usr/src/linux
 TOOLS="app-admin/sysklogd sys-process/cronie net-misc/dhcpcd net-dialup/ppp sys-apps/mlocate app-portage/eix sys-fs/genfstab"
 
     echo '(П.46 стр.93) Подставляем необходимые базовые пакеты'
-PACKAGES="sys-fs/ntfs3g kde-apps/konsole app-admin/sudo kde-apps/dolphin www-client/google-chrome kde-apps/kate sys-apps/inxi sys-apps/lm-sensors x11-apps/xdpyinfo"
+PACKAGES="sys-fs/ntfs3g app-admin/sudo www-client/firefox-bin sys-apps/inxi sys-apps/lm-sensors x11-apps/xdpyinfo"
 
     echo '19. Обновляем окружение'
 source /etc/profile
@@ -16,8 +16,14 @@ export PS1="(chroot) $PS1"
 emerge-webrsync
     echo '21. Обновляем базу portage'
 emerge --sync
-    echo '22. Выставляем профиль KDE Plasma'
+    echo '22. Выставляем профиль'
+    echo '1-KDE PLASMA, 2-GNOME'
+    read choice
+    if [[ "$choice" == "1" ]]; then
 eselect profile set 8
+    elif [[ "$choice" == "2" ]]; then
+eselect profile set 6
+      fi
     echo '23. Выставляем регион'
     read -p 'TIMEZONE_' TIMEZONE_
 echo "TIMEZONE_" >> /etc/timezone
@@ -28,7 +34,7 @@ echo "ru_RU.UTF-8 UTF-8" >> /etc/locale.gen
     echo '25. Генерируем локаль системы'
 locale-gen
     echo '26. Выставляем язык системы'
-eselect locale set en_US.utf8
+eselect locale set ru_RU.utf8
     echo '27. Обновляем мир'
 echo "dev-lang/python -bluetooth" >> /etc/portage/package.use/python
 echo "dev-util/cmake -qt5" >> /etc/portage/package.use/cmake
@@ -48,7 +54,7 @@ cd $path2
     if [[ "$choice" == "1" ]]; then
 cp /gentoo-install-scripts-main/config_ryzen /usr/src/linux/.config && make -j16 && make modules_install && make install && genkernel --install initramfs
     elif [[ "$choice" == "2" ]]; then
-genkernel all && genkernel --install initramfs
+genkernel all
       fi
     echo '33. Устанавливаем имя компьютера'
     read -p 'HOSTNAME_' HOSTNAME_
@@ -77,10 +83,14 @@ grub-install $DISK_
 grub-mkconfig -o /boot/grub/grub.cfg
     echo '41. Обновляем окружение'
 env-update && source /etc/profile && export PS1="(chroot) ${PS1}"
-    echo '42. Устанавливаем DE KDE Plasma'
-emerge --ask kde-plasma/plasma-meta
-etc-update --automode -3
-emerge kde-plasma/plasma-meta
+    echo '1-KDE PLASMA, 2-GNOME'
+    read choice
+if [[ "$choice" == "1" ]]; then
+emerge --ask kde-plasma/plasma-meta && etc-update --automode -3 && emerge kde-plasma/plasma-meta && emerge kde-apps/konsole && emerge kde-apps/dolphin && env-update && source /etc/profile
+    elif [[ "$choice" == "2" ]]; then
+emerge x11-base/xorg-server && emerge --ask gnome-base/gnome && etc-update --automode -3 && emerge gnome-base/gnome && env-update && source /etc/profile && rc-update add elogind boot && emerge --noreplace gui-libs/display-manager-init
+      fi
+
     echo '43. Создаём пользователя'
 read -p 'USERNAME_' USERNAME_
 useradd -m -G users,wheel,audio,video -s /bin/bash $USERNAME_
@@ -93,8 +103,14 @@ rc-update add NetworkManager default
 emerge $PACKAGES
     echo '47. Раскоментируем %wheel ALL=(ALL) ALL в sudoers'
 sed -i 's/# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
-    echo '48. Замена xdm на sddm в display-manager'
+    echo '48. Выбор экранного менеджера 1-SDDM 2-GDM'
+    echo '1-KDE PLASMA, 2-GNOME'
+    read choice
+if [[ "$choice" == "1" ]]; then
 sed -i 's/DISPLAYMANAGER="xdm"/DISPLAYMANAGER="sddm"/' /etc/conf.d/display-manager
+    elif [[ "$choice" == "2" ]]; then
+sed -i 's/DISPLAYMANAGER="xdm"/DISPLAYMANAGER="gdm"/' /etc/conf.d/display-manager
+      fi
     echo '49. Включаем daemon display-manager'
 rc-update add display-manager default
 exit
