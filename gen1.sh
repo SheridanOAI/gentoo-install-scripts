@@ -4,16 +4,16 @@
           path2=/
           setfont UniCyr_8x16
 
-    echo 'Выбор места установки разделов (LOCATION)'
+#    echo 'Выбор места установки разделов (LOCATION)'
  ROOT_LOCATION=/mnt/gentoo
  BOOT_LOCATION=/mnt/gentoo/boot/efi/
  DATA_LOCATION=/mnt/gentoo/data
 DATA2_LOCATION=/mnt/gentoo/data2
 
-    echo 'Выбор FS ROOT раздела'
+#    echo 'Выбор FS ROOT раздела'
        FS_TYPE=ext4
 
-    echo 'Выбор файла make.conf для NVIDIA или AMD'
+#    echo 'Выбор файла make.conf для NVIDIA или AMD'
        MAKE_NV=/mnt/gentoo/gentoo-install-scripts-main/make_nv.conf
       MAKE_AMD=/mnt/gentoo/gentoo-install-scripts-main/make_amd.conf
  MAKE_GNOME_NV=/mnt/gentoo/gentoo-install-scripts-main/make_gnome_nv.conf
