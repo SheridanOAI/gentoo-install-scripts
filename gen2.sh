@@ -3,10 +3,10 @@
 path1=/
 path2=/usr/src/linux
 
-    echo '(П.36 стр.61) Подставляем необходимые утилиты'
+#    echo '(П.36 стр.61) Подставляем необходимые утилиты'
 TOOLS="app-admin/sysklogd sys-process/cronie net-misc/dhcpcd net-dialup/ppp sys-apps/mlocate app-portage/eix sys-fs/genfstab"
 
-    echo '(П.46 стр.93) Подставляем необходимые базовые пакеты'
+#    echo '(П.46 стр.93) Подставляем необходимые базовые пакеты'
 PACKAGES="sys-fs/ntfs3g app-admin/sudo www-client/firefox-bin sys-apps/inxi sys-apps/lm-sensors x11-apps/xdpyinfo"
 
     echo '19. Обновляем окружение'
@@ -88,7 +88,7 @@ env-update && source /etc/profile && export PS1="(chroot) ${PS1}"
 if [[ "$choice" == "1" ]]; then
 emerge --ask kde-plasma/plasma-meta && etc-update --automode -3 && emerge kde-plasma/plasma-meta && emerge kde-apps/konsole && emerge kde-apps/dolphin && env-update && source /etc/profile
     elif [[ "$choice" == "2" ]]; then
-emerge x11-base/xorg-server && emerge --ask gnome-base/gnome && etc-update --automode -3 && emerge gnome-base/gnome && env-update && source /etc/profile && rc-update add elogind boot && emerge --noreplace gui-libs/display-manager-init
+emerge x11-base/xorg-server && echo "media-libs/libsndfile minimal" >> /etc/portage/package.use/libsndfile && echo "media-sound/mpg123 -pulseaudio" >> /etc/portage/package.use/mpg123 && emerge --ask gnome-base/gnome && etc-update --automode -3 && emerge gnome-base/gnome && env-update && source /etc/profile && rc-update add elogind boot && emerge --noreplace gui-libs/display-manager-init
       fi
 
     echo '43. Создаём пользователя'
