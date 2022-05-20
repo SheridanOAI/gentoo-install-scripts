@@ -102,7 +102,7 @@ rc-update add NetworkManager default
     echo '46. Установка необходимых пакетов'
 emerge $PACKAGES
     echo '47. Раскоментируем %wheel ALL=(ALL) ALL в sudoers'
-sed -i 's/# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
+sed -i '82c%wheel ALL=(ALL) ALL' /etc/sudoers
     echo '48. Выбор экранного менеджера 1-SDDM 2-GDM'
     echo '1-KDE PLASMA, 2-GNOME'
     read choice
