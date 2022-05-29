@@ -17,13 +17,15 @@ emerge-webrsync
     echo '21. Обновляем базу portage'
 emerge --sync
     echo '22. Выставляем профиль'
-    echo '1-KDE PLASMA, 2-GNOME'
+    echo '1-KDE PLASMA, 2-GNOME, 3-DESKTOP'
     read choice
     if [[ "$choice" == "1" ]]; then
 eselect profile set 8
     elif [[ "$choice" == "2" ]]; then
 eselect profile set 6
-      fi
+    elif [[ "$choice" == "3" ]]; then
+eselect profile set 5
+    fi
     echo '23. Выставляем регион'
     read -p 'TIMEZONE_' TIMEZONE_
 echo "TIMEZONE_" >> /etc/timezone
@@ -83,13 +85,15 @@ grub-install $DISK_
 grub-mkconfig -o /boot/grub/grub.cfg
     echo '41. Обновляем окружение'
 env-update && source /etc/profile && export PS1="(chroot) ${PS1}"
-    echo '1-KDE PLASMA, 2-GNOME'
+    echo '1-KDE PLASMA, 2-GNOME, 3-CINNAMON'
     read choice
-if [[ "$choice" == "1" ]]; then
+    if [[ "$choice" == "1" ]]; then
 emerge --ask kde-plasma/plasma-meta && etc-update --automode -3 && emerge kde-plasma/plasma-meta && emerge kde-apps/konsole && emerge kde-apps/dolphin && env-update && source /etc/profile
     elif [[ "$choice" == "2" ]]; then
 emerge x11-base/xorg-server && echo "media-libs/libsndfile minimal" >> /etc/portage/package.use/libsndfile && echo "media-sound/mpg123 -pulseaudio" >> /etc/portage/package.use/mpg123 && emerge --ask gnome-base/gnome && etc-update --automode -3 && emerge gnome-base/gnome && env-update && source /etc/profile && rc-update add elogind boot && emerge --noreplace gui-libs/display-manager-init
-      fi
+    elif [[ "$choice" == "3" ]]; then
+emerge --ask gnome-extra/cinnamon lxde-base/lxdm net-misc/networkmanager && rc-update add dbus default && rc-update add consolekit default
+    fi
 
     echo '43. Создаём пользователя'
 read -p 'USERNAME_' USERNAME_
@@ -104,13 +108,14 @@ emerge $PACKAGES
     echo '47. Раскоментируем %wheel ALL=(ALL) ALL в sudoers'
 sed -i '82c%wheel ALL=(ALL) ALL' /etc/sudoers
     echo '48. Выбор экранного менеджера 1-SDDM 2-GDM'
-    echo '1-KDE PLASMA, 2-GNOME'
+    echo '1-SDDM-KDE, 2-GDM-GNOME, 3-LXDM-CINNAMON-MATE-XFCE'
     read choice
-if [[ "$choice" == "1" ]]; then
-sed -i 's/DISPLAYMANAGER="xdm"/DISPLAYMANAGER="sddm"/' /etc/conf.d/display-manager
+    if [[ "$choice" == "1" ]]; then
+sed -i '13cDISPLAYMANAGER="sddm"' /etc/conf.d/display-manager
     elif [[ "$choice" == "2" ]]; then
-sed -i 's/DISPLAYMANAGER="xdm"/DISPLAYMANAGER="gdm"/' /etc/conf.d/display-manager
-      fi
+sed -i '13cDISPLAYMANAGER="gdm"' /etc/conf.d/display-manager
+    elif [[ "$choice" == "3" ]]; then
+sed -i '13cDISPLAYMANAGER="lxdm"' /etc/conf.d/display-manager
+    fi
     echo '49. Включаем daemon display-manager'
 rc-update add display-manager default
-exit
