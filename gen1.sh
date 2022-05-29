@@ -14,9 +14,10 @@ DATA2_LOCATION=/mnt/gentoo/data2
        FS_TYPE=ext4
 
 #    echo 'Выбор файла make.conf для NVIDIA или AMD'
-       MAKE_NV=/mnt/gentoo/gentoo-install-scripts-main/make_nv.conf
-      MAKE_AMD=/mnt/gentoo/gentoo-install-scripts-main/make_amd.conf
- MAKE_GNOME_NV=/mnt/gentoo/gentoo-install-scripts-main/make_gnome_nv.conf
+         MAKE_NV=/mnt/gentoo/gentoo-install-scripts-main/make_nv.conf
+        MAKE_AMD=/mnt/gentoo/gentoo-install-scripts-main/make_amd.conf
+   MAKE_GNOME_NV=/mnt/gentoo/gentoo-install-scripts-main/make_gnome_nv.conf
+MAKE_CINNAMON_NV=/mnt/gentoo/gentoo-install-scripts-main/make_cinnamon_nv.conf
 
     echo '01. Форматирование корневого раздела'
 read -p 'ROOT_PARTITION_' ROOT_PARTITION_
@@ -53,7 +54,7 @@ tar xpvf stage3*.tar.xz --xattrs-include='*.*' --numeric-owner
     echo '13. Копируем make.conf'
 wget https://github.com/SheridanOAI/gentoo-install-scripts/archive/refs/heads/main.zip
 unzip main.zip -d /mnt/gentoo
-    echo '1-MAKE.CONF-NVIDIA, 2-MAKE.CONF-AMD, 3-MAKE_GNOME_NV'
+    echo '1-MAKE.CONF-KDE-NVIDIA, 2-MAKE.CONF-KDE-AMD, 3-MAKE.CONF-GNOME-NV, 4-MAKE.CONF-CINNAMON-NV'
     read choice
       if [[ "$choice" == "1" ]]; then
 MAKE_CONF=$MAKE_NV
@@ -61,6 +62,8 @@ MAKE_CONF=$MAKE_NV
 MAKE_CONF=$MAKE_AMD
     elif [[ "$choice" == "3" ]]; then
 MAKE_CONF=$MAKE_GNOME_NV
+    elif [[ "$choice" == "4" ]]; then
+MAKE_CONF=$MAKE_CINNAMON_NV
       fi
 cp $MAKE_CONF /mnt/gentoo/etc/portage/make.conf
     echo '14. Создаём каталог repos.conf'
