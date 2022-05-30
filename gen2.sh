@@ -88,11 +88,11 @@ env-update && source /etc/profile && export PS1="(chroot) ${PS1}"
     echo '1-KDE PLASMA, 2-GNOME, 3-CINNAMON'
     read choice
     if [[ "$choice" == "1" ]]; then
-emerge --ask kde-plasma/plasma-meta && etc-update --automode -3 && emerge kde-plasma/plasma-meta && emerge kde-apps/konsole && emerge kde-apps/dolphin && env-update && source /etc/profile
+emerge --ask kde-plasma/plasma-meta && etc-update --automode -3 && emerge kde-plasma/plasma-meta && emerge kde-apps/konsole && emerge kde-apps/dolphin && env-update && source /etc/profile && sed -i '8cconsolefont="UniCyr_8x16"' /etc/conf.d/consolefont && rc-update add consolefont boot
     elif [[ "$choice" == "2" ]]; then
-emerge x11-base/xorg-server && echo "media-libs/libsndfile minimal" >> /etc/portage/package.use/libsndfile && echo "media-sound/mpg123 -pulseaudio" >> /etc/portage/package.use/mpg123 && emerge --ask gnome-base/gnome && etc-update --automode -3 && emerge gnome-base/gnome && env-update && source /etc/profile && rc-update add elogind boot && emerge --noreplace gui-libs/display-manager-init
+emerge x11-base/xorg-server && echo "media-libs/libsndfile minimal" >> /etc/portage/package.use/libsndfile && echo "media-sound/mpg123 -pulseaudio" >> /etc/portage/package.use/mpg123 && emerge --ask gnome-base/gnome && etc-update --automode -3 && emerge gnome-base/gnome && env-update && source /etc/profile && rc-update add elogind boot && emerge --noreplace gui-libs/display-manager-init && sed -i '8cconsolefont="UniCyr_8x16"' /etc/conf.d/consolefont && rc-update add consolefont boot
     elif [[ "$choice" == "3" ]]; then
-emerge --ask gnome-extra/cinnamon lxde-base/lxdm net-misc/networkmanager && rc-update add dbus default && rc-update add consolekit default
+emerge x11-base/xorg-server && emerge --ask gnome-extra/cinnamon && etc-update --automode -3 && emerge gnome-extra/cinnamon && rc-update add dbus default && emerge --noreplace gui-libs/display-manager-init && sed -i '8cconsolefont="UniCyr_8x16"' /etc/conf.d/consolefont && rc-update add consolefont boot && emerge x11-terms/xfce4-terminal gnome-extra/gnome-calculator media-gfx/gnome-screenshot media-gfx/eog app-text/evince gnome-extra/gnome-system-monitor app-arch/file-roller app-editors/gedit lxde-base/lxdm net-misc/networkmanager
     fi
 
     echo '43. Создаём пользователя'
