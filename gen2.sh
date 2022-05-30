@@ -40,6 +40,7 @@ eselect locale set ru_RU.utf8
     echo '27. Обновляем мир'
 echo "dev-lang/python -bluetooth" >> /etc/portage/package.use/python
 echo "dev-util/cmake -qt5" >> /etc/portage/package.use/cmake
+
 emerge world -uDNav
     echo '28. Перезагружаем окружение'
 env-update && source /etc/profile && export PS1="(chroot) ${PS1}"
@@ -92,7 +93,7 @@ emerge --ask kde-plasma/plasma-meta && etc-update --automode -3 && emerge kde-pl
     elif [[ "$choice" == "2" ]]; then
 emerge x11-base/xorg-server && echo "media-libs/libsndfile minimal" >> /etc/portage/package.use/libsndfile && echo "media-sound/mpg123 -pulseaudio" >> /etc/portage/package.use/mpg123 && emerge --ask gnome-base/gnome && etc-update --automode -3 && emerge gnome-base/gnome && env-update && source /etc/profile && rc-update add elogind boot && emerge --noreplace gui-libs/display-manager-init && sed -i '8cconsolefont="UniCyr_8x16"' /etc/conf.d/consolefont && rc-update add consolefont boot
     elif [[ "$choice" == "3" ]]; then
-emerge x11-base/xorg-server && echo "media-libs/libsndfile minimal" >> /etc/portage/package.use/libsndfile && echo "media-sound/mpg123 -pulseaudio" >> /etc/portage/package.use/mpg123 && emerge --ask gnome-extra/cinnamon && etc-update --automode -3 && emerge gnome-extra/cinnamon && env-update && source /etc/profile && rc-update add dbus default && emerge --noreplace gui-libs/display-manager-init && sed -i '8cconsolefont="UniCyr_8x16"' /etc/conf.d/consolefont && rc-update add consolefont boot && emerge x11-terms/xfce4-terminal gnome-extra/gnome-calculator media-gfx/gnome-screenshot media-gfx/eog app-text/evince gnome-extra/gnome-system-monitor app-arch/file-roller app-editors/gedit lxde-base/lxdm net-misc/networkmanager
+emerge x11-base/xorg-server && echo "dev-libs/libdbusmenu gtk3" >> /etc/portage/package.use/libdbusmenu && echo "x11-libs/xapp introspection" >> /etc/portage/package.use/xapp && echo "sys-boot/grub mount" >> /etc/portage/package.use/grub && echo "media-libs/libsndfile minimal" >> /etc/portage/package.use/libsndfile && echo "media-sound/mpg123 -pulseaudio" >> /etc/portage/package.use/mpg123 && emerge --ask gnome-extra/cinnamon && etc-update --automode -3 && emerge gnome-extra/cinnamon && env-update && source /etc/profile && rc-update add dbus default && emerge --noreplace gui-libs/display-manager-init && sed -i '8cconsolefont="UniCyr_8x16"' /etc/conf.d/consolefont && rc-update add consolefont boot && emerge x11-terms/xfce4-terminal gnome-extra/gnome-calculator media-gfx/gnome-screenshot media-gfx/eog app-text/evince gnome-extra/gnome-system-monitor app-arch/file-roller app-editors/gedit lxde-base/lxdm net-misc/networkmanager
     fi
 
     echo '43. Создаём пользователя'
