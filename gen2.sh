@@ -1,4 +1,4 @@
- #!/bin/bash
+#!/bin/bash
 
 path1=/
 path2=/usr/src/linux
@@ -89,11 +89,11 @@ env-update && source /etc/profile && export PS1="(chroot) ${PS1}"
     echo '1-KDE PLASMA, 2-GNOME, 3-CINNAMON'
     read choice
     if [[ "$choice" == "1" ]]; then
-emerge --ask kde-plasma/plasma-meta && etc-update --automode -3 && emerge kde-plasma/plasma-meta && emerge kde-apps/konsole && emerge kde-apps/dolphin && env-update && source /etc/profile && sed -i '8cconsolefont="UniCyr_8x16"' /etc/conf.d/consolefont && rc-update add consolefont boot
+emerge --ask kde-plasma/plasma-meta && etc-update --automode -3 && emerge kde-plasma/plasma-meta && echo "media-libs/libsndfile minimal" >> /etc/portage/package.use/libsndfile && echo "media-sound/mpg123 -pulseaudio" >> /etc/portage/package.use/mpg123 && emerge kde-apps/konsole && emerge kde-apps/dolphin && env-update && source /etc/profile && sed -i '8cconsolefont="UniCyr_8x16"' /etc/conf.d/consolefont && rc-update add consolefont boot
     elif [[ "$choice" == "2" ]]; then
 emerge x11-base/xorg-server && echo "media-libs/libsndfile minimal" >> /etc/portage/package.use/libsndfile && echo "media-sound/mpg123 -pulseaudio" >> /etc/portage/package.use/mpg123 && emerge --ask gnome-base/gnome && etc-update --automode -3 && emerge gnome-base/gnome && env-update && source /etc/profile && rc-update add elogind boot && emerge --noreplace gui-libs/display-manager-init && sed -i '8cconsolefont="UniCyr_8x16"' /etc/conf.d/consolefont && rc-update add consolefont boot
     elif [[ "$choice" == "3" ]]; then
-emerge x11-base/xorg-server && echo "dev-libs/libdbusmenu gtk3" >> /etc/portage/package.use/libdbusmenu && echo "x11-libs/xapp introspection" >> /etc/portage/package.use/xapp && echo "sys-boot/grub mount" >> /etc/portage/package.use/grub && echo "media-libs/libsndfile minimal" >> /etc/portage/package.use/libsndfile && echo "media-sound/mpg123 -pulseaudio" >> /etc/portage/package.use/mpg123 && emerge --ask gnome-extra/cinnamon && etc-update --automode -3 && emerge gnome-extra/cinnamon && env-update && source /etc/profile && rc-update add dbus default && emerge --noreplace gui-libs/display-manager-init && sed -i '8cconsolefont="UniCyr_8x16"' /etc/conf.d/consolefont && rc-update add consolefont boot && emerge x11-terms/xfce4-terminal gnome-extra/gnome-calculator media-gfx/gnome-screenshot media-gfx/eog app-text/evince gnome-extra/gnome-system-monitor app-arch/file-roller app-editors/gedit lxde-base/lxdm net-misc/networkmanager
+emerge x11-base/xorg-server && echo "dev-libs/libdbusmenu gtk3" >> /etc/portage/package.use/libdbusmenu && echo "x11-libs/xapp introspection" >> /etc/portage/package.use/xapp && echo "sys-boot/grub mount" >> /etc/portage/package.use/grub && echo "media-libs/libsndfile minimal" >> /etc/portage/package.use/libsndfile && echo "media-sound/mpg123 -pulseaudio" >> /etc/portage/package.use/mpg123 && emerge --ask gnome-extra/cinnamon && etc-update --automode -3 && emerge gnome-extra/cinnamon && env-update && source /etc/profile && rc-update add dbus default && emerge --noreplace gui-libs/display-manager-init && sed -i '8cconsolefont="UniCyr_8x16"' /etc/conf.d/consolefont && rc-update add consolefont boot && emerge x11-terms/xfce4-terminal gnome-extra/gnome-calculator media-gfx/gnome-screenshot media-gfx/eog app-text/evince gnome-extra/gnome-system-monitor app-arch/file-roller app-editors/gedit x11-misc/lightdm x11-misc/lightdm-gtk-greeter net-misc/networkmanager
     fi
 
     echo '43. Создаём пользователя'
@@ -109,14 +109,14 @@ emerge $PACKAGES
     echo '47. Раскоментируем %wheel ALL=(ALL) ALL в sudoers'
 sed -i '82c%wheel ALL=(ALL) ALL' /etc/sudoers
     echo '48. Выбор экранного менеджера 1-SDDM 2-GDM'
-    echo '1-SDDM-KDE, 2-GDM-GNOME, 3-LXDM-CINNAMON-MATE-XFCE'
+    echo '1-SDDM-KDE, 2-GDM-GNOME, 3-LIGHTDM-CINNAMON-MATE-XFCE'
     read choice
     if [[ "$choice" == "1" ]]; then
 sed -i '13cDISPLAYMANAGER="sddm"' /etc/conf.d/display-manager
     elif [[ "$choice" == "2" ]]; then
 sed -i '13cDISPLAYMANAGER="gdm"' /etc/conf.d/display-manager
     elif [[ "$choice" == "3" ]]; then
-sed -i '13cDISPLAYMANAGER="lxdm"' /etc/conf.d/display-manager
+sed -i '13cDISPLAYMANAGER="lightdm"' /etc/conf.d/display-manager
     fi
     echo '49. Включаем daemon display-manager'
 rc-update add display-manager default
