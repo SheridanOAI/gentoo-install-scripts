@@ -28,7 +28,7 @@ eselect profile set 5
     fi
     echo '23. Выставляем регион'
     read -p 'TIMEZONE_' TIMEZONE_
-echo "TIMEZONE_" >> /etc/timezone
+echo "$TIMEZONE_" > /etc/timezone
 emerge --config sys-libs/timezone-data
     echo '24. Добавляем русскую локаль системы'
 echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
