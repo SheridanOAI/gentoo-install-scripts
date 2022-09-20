@@ -27,13 +27,13 @@ echo '1 - BTRFS, 2 - EXT4'
 read choice
 
 if [[ "$choice" == "1" ]]; then
-    mkfs.btrfs -L Gentoo -f $DEV_ && mount $DEV_ /mnt && \
-    cd /mnt && btrfs sub cre @ && btrfs sub cre @home && \
-    btrfs sub cre @cache && btrfs sub cre @log && cd / && umount /mnt
+    mkfs.btrfs -L Gentoo -f $DEV_ && mount $DEV_ /mnt/gentoo && \
+    cd /mnt/gentoo && btrfs sub cre @ && btrfs sub cre @home && \
+    btrfs sub cre @cache && btrfs sub cre @log && cd / && umount /mnt/gentoo
 elif [[ "$choice" == "2" ]]; then
-    mkfs.ext4 -L Gentoo $DEV_ && mount $DEV_ /mnt && \
-    mkdir /mnt/{data,data2} && mkdir -p /mnt/boot/efi && \
-    cd / && umount /mnt
+    mkfs.ext4 -L Gentoo $DEV_ && mount $DEV_ /mnt/gentoo && \
+    mkdir /mnt/gentoo/{data,data2} && mkdir -p /mnt/gentoo/boot/efi && \
+    cd / && umount /mnt/gentoo
 fi
 
 echo '03. Монтирование раздела ROOT'
@@ -41,14 +41,14 @@ echo '1 - BTRFS, 2 - EXT4'
 read choice
 
 if [[ "$choice" == "1" ]]; then
-    mount -o noatime,autodefrag,compress=zstd,subvol=@ $DEV_ /mnt && \
-    mkdir /mnt/{home,data,data2} && mkdir -p /mnt/boot/efi && \
-    mkdir -p /mnt/var/log && mkdir -p /mnt/var/cache && \
-    mount -o noatime,autodefrag,compress=zstd,subvol=@home $DEV_ /mnt/home && \
-    mount -o noatime,autodefrag,compress=zstd,subvol=@cache $DEV_ /mnt/var/cache && \
-    mount -o noatime,autodefrag,compress=zstd,subvol=@log $DEV_ /mnt/var/log
+    mount -o noatime,autodefrag,compress=zstd,subvol=@ $DEV_ /mnt/gentoo && \
+    mkdir /mnt/gentoo/{home,data,data2} && mkdir -p /mnt/gentoo/boot/efi && \
+    mkdir -p /mnt/gentoo/var/log && mkdir -p /mnt/gentoo/var/cache && \
+    mount -o noatime,autodefrag,compress=zstd,subvol=@home $DEV_ /mnt/gentoo/home && \
+    mount -o noatime,autodefrag,compress=zstd,subvol=@cache $DEV_ /mnt/gentoo/var/cache && \
+    mount -o noatime,autodefrag,compress=zstd,subvol=@log $DEV_ /mnt/gentoo/var/log
 elif [[ "$choice" == "2" ]]; then
-    mount $DEV_ /mnt
+    mount $DEV_ /mnt/gentoo
 fi
 
 echo '04. Монтирование раздела UEFI'
@@ -71,9 +71,7 @@ echo '09. Переходим в корень устанавливаемой си
 cd $path1
 
 echo '10. Скачиваем архив stage3 (парсинг stage3-amd64-openrc)'
-a=$(curl https://mirror.yandex.ru/gentoo-distfiles/releases/amd64/autobuilds/\
-current-stage3-amd64-openrc/ | sed -e 's/<[^>]*>//g' |cut -f1 -d' '| grep -e "^\
-stage3-amd64-openrc.*.tar.xz$")
+a=$(curl https://mirror.yandex.ru/gentoo-distfiles/releases/amd64/autobuilds/current-stage3-amd64-openrc/ | sed -e 's/<[^>]*>//g' |cut -f1 -d' '| grep -e "^stage3-amd64-openrc.*.tar.xz$")
 path_to_stage3='https://mirror.yandex.ru/gentoo-distfiles/releases/amd64/autobuilds/current-stage3-amd64-openrc/'$a
 wget $path_to_stage3 -O stage3-amd64-openrc.tar.xz
 
@@ -107,8 +105,7 @@ echo '14. Создаём каталог repos.conf'
 mkdir --parents /mnt/gentoo/etc/portage/repos.conf
 
 echo '15. Копируем конфигурацию репозитория Gentoo в gentoo.conf'
-cp /mnt/gentoo/usr/share/portage/config/repos.conf \
-/mnt/gentoo/etc/portage/repos.conf/gentoo.conf
+cp /mnt/gentoo/usr/share/portage/config/repos.conf /mnt/gentoo/etc/portage/repos.conf/gentoo.conf
 
 echo '16. Копирование информации о DNS'
 cp --dereference /etc/resolv.conf /mnt/gentoo/etc/
