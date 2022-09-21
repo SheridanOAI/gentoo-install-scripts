@@ -67,7 +67,7 @@ emerge sys-kernel/genkernel
 
 echo '32. Путь к /usr/src/linux'
 cd $path2
-echo '1 - Ryzen-2700, 2 - GENKERNEL ALL'
+echo '1-Ryzen-2700, 2-GENKERNEL ALL, 3-GENTOO-KERNEL'
 read choice
 
 if [[ "$choice" == "1" ]]; then
@@ -75,6 +75,8 @@ if [[ "$choice" == "1" ]]; then
     make -j16 && make modules_install && make install && genkernel --microcode initramfs
 elif [[ "$choice" == "2" ]]; then
     genkernel all
+elif [[ "$choice" == "3" ]]; then
+    emerge sys-kernel/gentoo-kernel
 fi
 
 echo '33. Устанавливаем имя компьютера'
