@@ -10,7 +10,7 @@ echo '03. Установка дополнительных флагов для In
 echo "sys-apps/inxi hddtemp" >> /etc/portage/package.use/inxi
 
 export TOOLS="sys-fs/f2fs-tools sys-fs/dosfstools kde-apps/ark app-arch/p7zip \
-app-arch/unrar app-dicts/aspell-ru sys-apps/inxi app-misc/neofetch"
+app-arch/unrar app-dicts/aspell-ru sys-apps/inxi app-misc/neofetch sys-apps/nvme-cli"
 
 export FONTS="dev-perl/Font-TTF media-fonts/font-bh-ttf media-fonts/font-misc-meltho \
 media-fonts/font-misc-misc media-fonts/font-adobe-utopia-type1 \
