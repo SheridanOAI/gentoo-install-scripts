@@ -20,7 +20,7 @@ media-fonts/ubuntu-font-family media-fonts/noto-emoji"
 export PACKAGES="media-sound/audacious sys-apps/gnome-disk-utility media-sound/kid3 \
 media-sound/soundconverter media-sound/flacon kde-apps/kcalc games-board/gnome-mahjongg \
 app-admin/conky media-sound/pavucontrol-qt kde-apps/gwenview media-gfx/flameshot \
-net-p2p/qbittorrent"
+net-p2p/qbittorrent kde-apps/kdenlive"
 
 echo "04. Установка утилит"
 emerge --ask $TOOLS
