@@ -120,21 +120,21 @@ echo '1-KDE PLASMA, 2-GNOME, 3-CINNAMON'
 read choice
 
 if [[ "$choice" == "1" ]]; then
-    emerge --ask kde-plasma/plasma-meta && etc-update --automode -3 && \
-    emerge kde-plasma/plasma-meta && \
-    echo "media-libs/libsndfile minimal" >> /etc/portage/package.use/libsndfile && \
-    echo "media-sound/mpg123 -pulseaudio" >> /etc/portage/package.use/mpg123 && \
-    emerge kde-apps/konsole && emerge kde-apps/dolphin && env-update && \
-    source /etc/profile && sed -i '8cconsolefont="UniCyr_8x16"' \
-    /etc/conf.d/consolefont && rc-update add consolefont boot
+    echo "media-libs/libsndfile minimal" >> /etc/portage/package.use/libsndfile
+    echo "media-sound/mpg123 -pulseaudio" >> /etc/portage/package.use/mpg123
+    emerge --ask kde-plasma/plasma-meta && etc-update --automode -3
+    emerge kde-plasma/plasma-meta && emerge kde-apps/konsole 
+    emerge kde-apps/dolphin && env-update && source /etc/profile
+    sed -i '8cconsolefont="UniCyr_8x16"' /etc/conf.d/consolefont
+    rc-update add consolefont boot
 elif [[ "$choice" == "2" ]]; then
-    emerge x11-base/xorg-server && \
-    echo "media-libs/libsndfile minimal" >> /etc/portage/package.use/libsndfile && \
-    echo "media-sound/mpg123 -pulseaudio" >> /etc/portage/package.use/mpg123 && \
-    emerge --ask gnome-base/gnome && etc-update --automode -3 && \
-    emerge gnome-base/gnome && env-update && source /etc/profile && \
-    rc-update add elogind boot && emerge --noreplace gui-libs/display-manager-init && \
-    sed -i '8cconsolefont="UniCyr_8x16"' /etc/conf.d/consolefont && \
+    emerge x11-base/xorg-server &&
+    echo "media-libs/libsndfile minimal" >> /etc/portage/package.use/libsndfile
+    echo "media-sound/mpg123 -pulseaudio" >> /etc/portage/package.use/mpg123
+    emerge --ask gnome-base/gnome && etc-update --automode -3 &&
+    emerge gnome-base/gnome && env-update && source /etc/profile
+    rc-update add elogind boot && emerge --noreplace gui-libs/display-manager-init &&
+    sed -i '8cconsolefont="UniCyr_8x16"' /etc/conf.d/consolefont &&
     rc-update add consolefont boot
 elif [[ "$choice" == "3" ]]; then
     emerge x11-base/xorg-server && \
