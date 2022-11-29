@@ -122,15 +122,18 @@ read choice
 if [[ "$choice" == "1" ]]; then
     echo "media-libs/libsndfile minimal" >> /etc/portage/package.use/libsndfile
     echo "media-sound/mpg123 -pulseaudio" >> /etc/portage/package.use/mpg123
+    echo "sys-boot/grub mount" >> /etc/portage/package.use/grub
     emerge --ask kde-plasma/plasma-meta && etc-update --automode -3
     emerge kde-plasma/plasma-meta && emerge kde-apps/konsole 
     emerge kde-apps/dolphin && env-update && source /etc/profile
+    emerge --noreplace gui-libs/display-manager-init
     sed -i '8cconsolefont="UniCyr_8x16"' /etc/conf.d/consolefont
     rc-update add consolefont boot
 elif [[ "$choice" == "2" ]]; then
     emerge x11-base/xorg-server &&
     echo "media-libs/libsndfile minimal" >> /etc/portage/package.use/libsndfile
     echo "media-sound/mpg123 -pulseaudio" >> /etc/portage/package.use/mpg123
+    echo "sys-boot/grub mount" >> /etc/portage/package.use/grub
     emerge --ask gnome-base/gnome && etc-update --automode -3 &&
     emerge gnome-base/gnome && env-update && source /etc/profile
     rc-update add elogind boot && emerge --noreplace gui-libs/display-manager-init &&
