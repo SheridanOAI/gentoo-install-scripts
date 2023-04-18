@@ -72,7 +72,7 @@ read choice
 
 if [[ "$choice" == "1" ]]; then
     cp /gentoo-install-scripts-main/config_ryzen /usr/src/linux/.config && \
-    make -j22 && make modules_install && make install && genkernel --microcode initramfs
+    make -j24 && make modules_install && make install && genkernel --microcode initramfs
 elif [[ "$choice" == "2" ]]; then
     genkernel all
 elif [[ "$choice" == "3" ]]; then
