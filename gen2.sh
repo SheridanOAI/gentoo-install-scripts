@@ -9,7 +9,7 @@ sys-apps/mlocate app-portage/eix sys-fs/genfstab"
 
 #echo '(П.46 стр.93) Подставляем необходимые базовые пакеты'
 export PACKAGES="sys-fs/ntfs3g app-admin/sudo www-client/firefox-bin sys-apps/inxi \
-sys-apps/lm-sensors x11-apps/xdpyinfo"
+sys-apps/lm-sensors x11-apps/xdpyinfo sys-fs/mtools app-misc/neofetch"
 
 echo '19. Обновляем окружение'
 source /etc/profile && export PS1="(chroot) $PS1"
