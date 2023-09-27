@@ -8,8 +8,8 @@ export TOOLS="app-admin/sysklogd sys-process/cronie net-misc/dhcpcd net-dialup/p
 sys-apps/mlocate app-portage/eix sys-fs/genfstab"
 
 #echo '(П.46 стр.93) Подставляем необходимые базовые пакеты'
-export PACKAGES="sys-fs/ntfs3g app-admin/sudo www-client/firefox-bin sys-apps/inxi \
-sys-apps/lm-sensors x11-apps/xdpyinfo sys-fs/mtools app-misc/neofetch"
+export PACKAGES="app-admin/sudo www-client/firefox-bin sys-apps/inxi \
+sys-apps/lm-sensors x11-apps/xdpyinfo"
 
 echo '19. Обновляем окружение'
 source /etc/profile && export PS1="(chroot) $PS1"
@@ -17,10 +17,7 @@ source /etc/profile && export PS1="(chroot) $PS1"
 echo '20. Устанавливаем снимок portage'
 emerge-webrsync
 
-echo '21. Обновляем базу portage'
-emerge --sync
-
-echo '22. Выставляем профиль'
+echo '21. Выставляем профиль'
 echo '1-KDE PLASMA, 2-GNOME, 3-DESKTOP'
 read choice
 
@@ -32,10 +29,13 @@ elif [[ "$choice" == "3" ]]; then
     eselect profile set 5
 fi
 
-echo '23. Выставляем регион'
+echo '22. Выставляем регион'
 read -p 'TIMEZONE_' TIMEZONE_
 echo "$TIMEZONE_" >> /etc/timezone
 emerge --config sys-libs/timezone-data
+
+echo '23. Обновляем базу portage'
+emerge --sync
 
 echo '24. Добавляем русскую локаль системы'
 echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
@@ -48,74 +48,62 @@ echo '26. Выставляем язык системы'
 eselect locale set ru_RU.utf8
 
 echo '27. Обновляем мир'
-echo "dev-lang/python -bluetooth" >> /etc/portage/package.use/python
-echo "dev-util/cmake -qt5" >> /etc/portage/package.use/cmake
-
 time emerge  --quiet-build=y world -uDNav
 
 echo '28. Перезагружаем окружение'
 env-update && source /etc/profile && export PS1="(chroot) ${PS1}"
 
-echo '29. Устанавливаем ядро'
-emerge sys-kernel/gentoo-sources
-
-echo '30. Устанавливаем символьную ссылку ядра'
-eselect kernel set 1
-
-echo '31. Устанавливаем genkernel'
-emerge sys-kernel/genkernel
-
-echo '32. Путь к /usr/src/linux'
+echo '29. Путь к /usr/src/linux'
 cd $path2
-echo '1-RYZEN, 2-GENKERNEL ALL, 3-GENTOO-KERNEL'
+
+echo '30. Устанавливаем ядро'
+echo '1 - GENTOO-SOURCES, 2 - GENTOO-KERNEL'
 read choice
 
 if [[ "$choice" == "1" ]]; then
-    cp /gentoo-install-scripts-main/config_ryzen /usr/src/linux/.config && \
-    make -j24 && make modules_install && make install && genkernel --microcode initramfs
-elif [[ "$choice" == "2" ]]; then
+    emerge sys-kernel/gentoo-sources sys-kernel/genkernel && eselect kernel set 1 && \
     genkernel all
-elif [[ "$choice" == "3" ]]; then
-    emerge sys-kernel/gentoo-kernel
+elif [[ "$choice" == "2" ]]; then
+    emerge sys-kernel/gentoo-kernel sys-kernel/linux-firmware && eselect kernel set 1
 fi
 
-echo '33. Устанавливаем имя компьютера'
+echo '31. Устанавливаем имя компьютера'
 read -p 'HOSTNAME_' HOSTNAME_
 sed -i "s/localhost/$HOSTNAME_/g" /etc/conf.d/hostname
 
-echo '34 Устанавливаем среду управления сетевыми интерфесами'
+echo '32 Устанавливаем среду управления сетевыми интерфесами'
 emerge --noreplace netifrc
 
-echo '35. Устанавливаем пароль root'
+echo '33. Устанавливаем пароль root'
 passwd
 
-echo '36. Установка системных программ'
+echo '34. Установка системных программ'
 emerge $TOOLS
 rc-update add sysklogd default
 rc-update add cronie default
 rc-update add sshd default
 eix-update
 
-echo '37. Генерируем fstab'
+echo '35. Генерируем fstab'
 genfstab -U / >> /etc/fstab
 
-echo '38. Установка пакетов загрузчика'
+echo '36. Установка пакетов загрузчика'
 emerge --ask sys-boot/os-prober
 etc-update --automode -3
 emerge sys-boot/os-prober
 
-echo '39. Выбор диска устанавки GRUB'
+echo '37. Выбор диска устанавки GRUB'
 read -p 'DISK_' DISK_
 grub-install $DISK_
-#echo "GRUB_DISABLE_OS_PROBER=false" >> /etc/default/grub
+echo "GRUB_DISABLE_OS_PROBER=false" >> /etc/default/grub
 
-echo '40. Обновление GRUB'
+echo '38. Обновление GRUB'
 grub-mkconfig -o /boot/grub/grub.cfg
 
-echo '41. Обновляем окружение'
+echo '39. Обновляем окружение'
 env-update && source /etc/profile && export PS1="(chroot) ${PS1}"
 
-echo '42. Устанавливаем DE (рабочий стол)'
+echo '40. Устанавливаем DE (рабочий стол)'
 echo '1-KDE PLASMA, 2-GNOME, 3-CINNAMON'
 read choice
 
@@ -123,6 +111,7 @@ if [[ "$choice" == "1" ]]; then
     echo "media-libs/libsndfile minimal" >> /etc/portage/package.use/libsndfile
     echo "media-sound/mpg123 -pulseaudio" >> /etc/portage/package.use/mpg123
     echo "sys-boot/grub mount" >> /etc/portage/package.use/grub
+    emerge x11-base/xorg-server &&
     emerge --ask kde-plasma/plasma-meta && etc-update --automode -3
     emerge kde-plasma/plasma-meta && emerge kde-apps/konsole 
     emerge kde-apps/dolphin && env-update && source /etc/profile
@@ -157,24 +146,24 @@ elif [[ "$choice" == "3" ]]; then
     net-misc/networkmanager
 fi
 
-echo '43. Создаём пользователя'
+echo '41. Создаём пользователя'
 read -p 'USERNAME_' USERNAME_
 useradd -m -G users,wheel,audio,video -s /bin/bash $USERNAME_
 
-echo '44. Вписываем такое же имя пользователя'
+echo '42. Вписываем такое же имя пользователя'
 read -p 'USERNAME_' USERNAME_
 passwd $USERNAME_
 
-echo '45. Включаем daemon NetworkManager'
+echo '43. Включаем daemon NetworkManager'
 rc-update add NetworkManager default
 
-echo '46. Установка необходимых пакетов'
+echo '44. Установка необходимых пакетов'
 emerge $PACKAGES
 
-echo '47. Раскоментируем %wheel ALL=(ALL) ALL в sudoers'
+echo '45. Раскоментируем %wheel ALL=(ALL) ALL в sudoers'
 sed -i '82c%wheel ALL=(ALL) ALL' /etc/sudoers
 
-echo '48. Выбор экранного менеджера 1-SDDM 2-GDM'
+echo '46. Выбор экранного менеджера 1-SDDM 2-GDM'
 echo '1-SDDM-KDE, 2-GDM-GNOME, 3-LIGHTDM-CINNAMON-MATE-XFCE'
 read choice
 
@@ -186,5 +175,5 @@ elif [[ "$choice" == "3" ]]; then
     sed -i '13cDISPLAYMANAGER="lightdm"' /etc/conf.d/display-manager
 fi
 
-echo '49. Включаем daemon display-manager'
+echo '47. Включаем daemon display-manager'
 rc-update add display-manager default
