@@ -24,7 +24,7 @@ echo '1 - BTRFS, 2 - EXT4'
 read choice
 
 if [[ "$choice" == "1" ]]; then
-    mkfs.btrfs -L Gentoo -f $DEV_ && mkdir /mnt/gentoo && mount $DEV_ /mnt/gentoo && \
+    mkfs.btrfs -L Gentoo -f $DEV_ && mkdir -p /mnt/gentoo && mount $DEV_ /mnt/gentoo && \
     cd /mnt/gentoo && btrfs sub cre @ && cd / && umount /mnt/gentoo
 elif [[ "$choice" == "2" ]]; then
     mkfs.ext4 -L Gentoo $DEV_ && mkdir /mnt/gentoo && mount $DEV_ /mnt/gentoo && \
@@ -37,9 +37,9 @@ echo '1 - BTRFS, 2 - EXT4'
 read choice
 
 if [[ "$choice" == "1" ]]; then
-    mount -o rw,noatime,ssd,discard=async,space_cashe=v2,compress=zstd,subvol=@ $DEV_ /mnt/gentoo && \
-    mkdir -p /mnt/gentoo/home/{data,data2/games} && mkdir -p /mnt/gentoo/boot/efi && \
-    elif [[ "$choice" == "2" ]]; then
+    mount -o rw,noatime,ssd,discard=async,compress=zstd,subvol=@ $DEV_ /mnt/gentoo && \
+    mkdir -p /mnt/gentoo/home/{data,data2/games} && mkdir -p /mnt/gentoo/boot/efi
+elif [[ "$choice" == "2" ]]; then
     mount $DEV_ /mnt/gentoo
 fi
 
