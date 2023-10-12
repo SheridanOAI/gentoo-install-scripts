@@ -190,3 +190,8 @@ fi
 
 echo '47. Включаем daemon display-manager'
 rc-update add display-manager default
+
+echo '48. Установка дополнительного ПО'
+mkdir /etc/portage/sets
+cp /gentoo-install-scripts-main/mysets /etc/portage/sets/
+emerge @mysets
