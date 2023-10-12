@@ -1,0 +1,52 @@
+    #TOOLS
+sys-fs/f2fs-tools
+sys-fs/dosfstools
+sys-fs/btrfs-progs
+dev-python/btrfs
+sys-apps/gnome-disk-utility
+sys-apps/nvme-cli
+app-arch/p7zip
+app-arch/unrar
+app-dicts/aspell-ru
+app-misc/neofetch
+app-misc/mc
+
+    #KDE-PLASMA
+kde-apps/kcalc
+kde-apps/gwenview
+kde-apps/kdenlive
+kde-apps/ark
+kde-apps/kwalletmanager
+kde-apps/spectacle
+
+    #MULTIMEDIA
+media-sound/pavucontrol-qt
+media-sound/audacious
+media-sound/clementine
+media-sound/soundconverter
+media-sound/flacon
+media-sound/kid3
+media-video/smplayer
+
+    #FONTS
+dev-perl/Font-TTF
+media-fonts/font-bh-ttf
+media-fonts/font-misc-meltho
+media-fonts/font-misc-misc
+media-fonts/font-adobe-utopia-type1
+media-fonts/font-adobe-utopia-100dpi
+media-fonts/font-adobe-utopia-75dpi
+media-fonts/ubuntu-font-family
+media-fonts/noto-emoji
+
+    #PACKAGE
+app-admin/conky
+net-p2p/qbittorrent
+app-emulation/virtualbox
+app-emulation/virtualbox-additions
+app-emulation/virtualbox-modules
+app-shells/bash-completion
+app-eselect/eselect-repository
+net-analyzer/speedtest-cli
+net-vpn/wireguard-tools
+sys-block/gparted
