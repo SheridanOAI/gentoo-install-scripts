@@ -8,6 +8,7 @@ export TOOLS="app-admin/sysklogd sys-process/cronie net-misc/dhcpcd net-dialup/p
 sys-apps/mlocate app-portage/eix sys-fs/genfstab"
 
 #echo '(П.46 стр.93) Подставляем необходимые базовые пакеты'
+echo "sys-apps/inxi hddtemp" >> /etc/portage/package.use/inxi
 export PACKAGES="app-admin/sudo www-client/firefox-bin sys-apps/inxi \
 sys-apps/lm-sensors x11-apps/xdpyinfo"
 
@@ -51,7 +52,6 @@ echo '27. Обновляем мир'
 emerge  --quiet-build=y world -uDNav
 etc-update --automode -3
 emerge  --quiet-build=y world -uDNav
-
 echo '28. Перезагружаем окружение'
 env-update && source /etc/profile && export PS1="(chroot) ${PS1}"
 
@@ -66,6 +66,7 @@ if [[ "$choice" == "1" ]]; then
     emerge sys-kernel/gentoo-sources sys-kernel/genkernel && eselect kernel set 1 && \
     genkernel all
 elif [[ "$choice" == "2" ]]; then
+    echo 'sys-kernel/gentoo-kernel' > /etc/portage/package.accept_keywords/gentoo-kernel
     emerge sys-kernel/gentoo-kernel sys-kernel/linux-firmware && eselect kernel set 1
 fi
 
@@ -114,6 +115,15 @@ if [[ "$choice" == "1" ]]; then
     echo "media-libs/libsndfile minimal" >> /etc/portage/package.use/libsndfile
     echo "media-sound/mpg123 -pulseaudio" >> /etc/portage/package.use/mpg123
     echo "sys-boot/grub mount" >> /etc/portage/package.use/grub
+    echo 'app-admin/conky imlib' >> /etc/portage/package.use/conky
+    echo 'app-text/cherrytree' >> /etc/portage/package.accept_keywords/cherrytree
+    echo 'kde-misc/latte-dock' >> /etc/portage/package.accept_keywords/latte-dock
+    echo 'media-video/obs-studio' >> /etc/portage/package.accept_keywords/obs
+    echo 'app-misc/radeontop' >> /etc/portage/package.accept_keywords/radeontop
+    echo 'net-misc/anydesk' >> /etc/portage/package.accept_keywords/anydesk
+    echo 'x11-libs/gtkglext' >> /etc/portage/package.accept_keywords/anydesk
+    echo "media-plugins/audacious-plugins cue ffmpeg wavpack lame soxr" >> /etc/portage/package.use/Audacious
+    echo "sys-apps/inxi hddtemp" >> /etc/portage/package.use/inxi
     emerge x11-base/xorg-server &&
     emerge --ask kde-plasma/plasma-meta && etc-update --automode -3
     emerge kde-plasma/plasma-meta && emerge kde-apps/konsole 
