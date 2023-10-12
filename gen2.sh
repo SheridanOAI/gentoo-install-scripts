@@ -70,9 +70,9 @@ elif [[ "$choice" == "2" ]]; then
 fi
 
 echo '31. Устанавливаем имя компьютера'
-rm /etc/conf.d/hostname
 read -p 'HOSTNAME_' HOSTNAME_
-echo "$HOSTNAME_" >> /mnt/etc/hostname
+sed -i "s/localhost/$HOSTNAME_/g" /etc/conf.d/hostname
+sed -i "s|^127.0.0.1.*localhost|127.0.0.1 localhost $(hostname)|" /etc/hosts
 
 echo '32 Устанавливаем среду управления сетевыми интерфесами'
 emerge --noreplace netifrc
