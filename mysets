@@ -1,4 +1,4 @@
-    #TOOLS
+#TOOLS
 sys-fs/f2fs-tools
 sys-fs/dosfstools
 sys-fs/btrfs-progs
@@ -14,15 +14,12 @@ app-misc/mc
     #KDE-PLASMA
 kde-apps/kcalc
 kde-apps/gwenview
-kde-apps/kdenlive
 kde-apps/ark
 kde-apps/kwalletmanager
 kde-apps/spectacle
 
     #MULTIMEDIA
 media-sound/pavucontrol-qt
-media-sound/audacious
-media-sound/clementine
 media-sound/soundconverter
 media-sound/flacon
 media-sound/kid3
@@ -38,6 +35,7 @@ media-fonts/font-adobe-utopia-100dpi
 media-fonts/font-adobe-utopia-75dpi
 media-fonts/ubuntu-font-family
 media-fonts/noto-emoji
+media-fonts/noto-cjk
 
     #PACKAGE
 app-admin/conky
@@ -47,6 +45,6 @@ app-emulation/virtualbox-additions
 app-emulation/virtualbox-modules
 app-shells/bash-completion
 app-eselect/eselect-repository
-net-analyzer/speedtest-cli
 net-vpn/wireguard-tools
 sys-block/gparted
+app-text/cherrytree
