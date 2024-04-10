@@ -23,11 +23,11 @@ echo '1-KDE PLASMA, 2-GNOME, 3-DESKTOP'
 read choice
 
 if [[ "$choice" == "1" ]]; then
-    eselect profile set 9
+    eselect profile set 27
 elif [[ "$choice" == "2" ]]; then
-    eselect profile set 6
+    eselect profile set 25
 elif [[ "$choice" == "3" ]]; then
-    eselect profile set 5
+    eselect profile set 23
 fi
 
 echo '22. Выставляем регион'
@@ -66,14 +66,15 @@ if [[ "$choice" == "1" ]]; then
     emerge sys-kernel/gentoo-sources sys-kernel/genkernel && eselect kernel set 1 && \
     genkernel all
 elif [[ "$choice" == "2" ]]; then
-    echo 'sys-kernel/gentoo-kernel' > /etc/portage/package.accept_keywords/gentoo-kernel
+    echo "sys-kernel/gentoo-kernel" >> /etc/portage/package.accept_keywords/gentoo-kernel
+    echo "virtual/dist-kernel" >> /etc/portage/package.accept_keywords/gentoo-kernel
     emerge sys-kernel/gentoo-kernel sys-kernel/linux-firmware && eselect kernel set 1
 fi
 
 echo '31. Устанавливаем имя компьютера'
 read -p 'HOSTNAME_' HOSTNAME_
 sed -i "s/localhost/$HOSTNAME_/g" /etc/conf.d/hostname
-sed -i "s|^127.0.0.1.*localhost|127.0.0.1 localhost $(hostname)|" /etc/hosts
+#sed -i "s|^127.0.0.1.*localhost|127.0.0.1 localhost $(hostname)|" /etc/hosts
 
 echo '32 Устанавливаем среду управления сетевыми интерфесами'
 emerge --noreplace netifrc
@@ -97,8 +98,8 @@ etc-update --automode -3
 emerge sys-boot/os-prober
 
 echo '37. Выбор диска устанавки GRUB'
-read -p 'DISK_' DISK_
-grub-install $DISK_
+#read -p 'DISK_' DISK_
+grub-install
 echo "GRUB_DISABLE_OS_PROBER=false" >> /etc/default/grub
 
 echo '38. Обновление GRUB'
@@ -112,12 +113,11 @@ echo '1-KDE PLASMA, 2-GNOME, 3-CINNAMON'
 read choice
 
 if [[ "$choice" == "1" ]]; then
-    echo "media-libs/libsndfile minimal" >> /etc/portage/package.use/libsndfile
-    echo "media-sound/mpg123 -pulseaudio" >> /etc/portage/package.use/mpg123
+    #echo "media-libs/libsndfile minimal" >> /etc/portage/package.use/libsndfile
+    #echo "media-sound/mpg123 -pulseaudio" >> /etc/portage/package.use/mpg123
     echo "sys-boot/grub mount" >> /etc/portage/package.use/grub
     echo 'app-admin/conky imlib' >> /etc/portage/package.use/conky
     echo 'app-text/cherrytree' >> /etc/portage/package.accept_keywords/cherrytree
-    echo 'kde-misc/latte-dock' >> /etc/portage/package.accept_keywords/latte-dock
     echo 'media-video/obs-studio' >> /etc/portage/package.accept_keywords/obs
     echo 'app-misc/radeontop' >> /etc/portage/package.accept_keywords/radeontop
     echo 'net-misc/anydesk' >> /etc/portage/package.accept_keywords/anydesk
@@ -161,7 +161,7 @@ fi
 
 echo '41. Создаём пользователя'
 read -p 'USERNAME_' USERNAME_
-useradd -m -G users,wheel,audio,video -s /bin/bash $USERNAME_
+useradd -m -G users,wheel,pipewire,video -s /bin/bash $USERNAME_
 
 echo '42. Вписываем такое же имя пользователя'
 read -p 'USERNAME_' USERNAME_
