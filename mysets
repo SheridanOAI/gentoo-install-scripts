@@ -40,9 +40,9 @@ media-fonts/noto-cjk
     #PACKAGE
 app-admin/conky
 net-p2p/qbittorrent
-app-emulation/virtualbox
-app-emulation/virtualbox-additions
-app-emulation/virtualbox-modules
+#app-emulation/virtualbox
+#app-emulation/virtualbox-additions
+#app-emulation/virtualbox-modules
 app-shells/bash-completion
 app-eselect/eselect-repository
 net-vpn/wireguard-tools
