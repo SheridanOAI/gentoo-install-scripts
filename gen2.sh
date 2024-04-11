@@ -68,7 +68,11 @@ if [[ "$choice" == "1" ]]; then
 elif [[ "$choice" == "2" ]]; then
     echo "sys-kernel/gentoo-kernel" >> /etc/portage/package.accept_keywords/gentoo-kernel
     echo "virtual/dist-kernel" >> /etc/portage/package.accept_keywords/gentoo-kernel
-    emerge sys-kernel/gentoo-kernel sys-kernel/linux-firmware && eselect kernel set 1
+    sys-kernel/linux-firmware
+    emerge sys-kernel/gentoo-kernel
+    etc-update --automode -3
+    emerge sys-kernel/gentoo-kernel
+    eselect kernel set 1
 fi
 
 echo '31. Устанавливаем имя компьютера'
@@ -98,8 +102,8 @@ etc-update --automode -3
 emerge sys-boot/os-prober
 
 echo '37. Выбор диска устанавки GRUB'
-#read -p 'DISK_' DISK_
-grub-install
+read -p 'DISK_' DISK_
+grub-install $DISK_
 echo "GRUB_DISABLE_OS_PROBER=false" >> /etc/default/grub
 
 echo '38. Обновление GRUB'
