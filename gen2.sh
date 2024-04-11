@@ -68,7 +68,7 @@ if [[ "$choice" == "1" ]]; then
 elif [[ "$choice" == "2" ]]; then
     echo "sys-kernel/gentoo-kernel" >> /etc/portage/package.accept_keywords/gentoo-kernel
     echo "virtual/dist-kernel" >> /etc/portage/package.accept_keywords/gentoo-kernel
-    sys-kernel/linux-firmware
+    emerge sys-kernel/linux-firmware
     emerge sys-kernel/gentoo-kernel
     etc-update --automode -3
     emerge sys-kernel/gentoo-kernel
