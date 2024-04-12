@@ -67,8 +67,8 @@ echo '09. Переходим в корень устанавливаемой си
 cd $path1
 
 echo '10. Скачиваем архив stage3 (парсинг stage3-amd64-openrc)'
-a=$(curl https://gentoo-mirror.alexxy.name/releases/amd64/autobuilds/current-stage3-amd64-openrc/ | sed -e 's/<[^>]*>//g' |cut -f1 -d' '| grep -e "^stage3-amd64-openrc.*.tar.xz$")
-path_to_stage3='https://gentoo-mirror.alexxy.name/releases/amd64/autobuilds/current-stage3-amd64-openrc/'$a
+a=$(curl https://mirrors.mit.edu/gentoo-distfiles/releases/amd64/autobuilds/current-stage3-amd64-openrc/ | sed -e 's/<[^>]*>//g' |cut -f1 -d' '| grep -e "^stage3-amd64-openrc.*.tar.xz$")
+path_to_stage3='https://mirrors.mit.edu/gentoo-distfiles/releases/amd64/autobuilds/current-stage3-amd64-openrc/'$a
 wget $path_to_stage3 -O stage3-amd64-openrc.tar.xz
 
 echo '11. Копируем архив stage3'
