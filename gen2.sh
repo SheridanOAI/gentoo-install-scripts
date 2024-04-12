@@ -55,19 +55,22 @@ emerge  --quiet-build=y world -uDNav
 echo '28. Перезагружаем окружение'
 env-update && source /etc/profile && export PS1="(chroot) ${PS1}"
 
-echo '29. Путь к /usr/src/linux'
-cd $path2
-
-echo '30. Устанавливаем ядро'
+echo '29. Устанавливаем ядро'
 echo '1 - GENTOO-SOURCES, 2 - GENTOO-KERNEL'
 read choice
 
 if [[ "$choice" == "1" ]]; then
-    emerge sys-kernel/gentoo-sources sys-kernel/genkernel && eselect kernel set 1 && \
-    genkernel all
+    emerge sys-kernel/gentoo-sources sys-kernel/genkernel emerge sys-kernel/linux-firmware && \
+    eselect kernel set 1 && genkernel all --microcode=none
 elif [[ "$choice" == "2" ]]; then
-    emerge sys-kernel/linux-firmware emerge sys-kernel/gentoo-kernel
+    echo "sys-kernel/gentoo-kernel" >> /etc/portage/package.accept_keywords/gentoo-kernel
+    echo "virtual/dist-kernel" >> /etc/portage/package.accept_keywords/gentoo-kernel
+    echo ">=sys-kernel/installkernel-28 dracut" >> /etc/portage/package.use/installkernel-28
+    emerge sys-kernel/linux-firmware && emerge sys-kernel/gentoo-kernel && eselect kernel set 1
 fi
+
+echo '30. Путь к /usr/src/linux'
+cd $path2
 
 echo '31. Устанавливаем имя компьютера'
 read -p 'HOSTNAME_' HOSTNAME_
