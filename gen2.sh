@@ -66,13 +66,7 @@ if [[ "$choice" == "1" ]]; then
     emerge sys-kernel/gentoo-sources sys-kernel/genkernel && eselect kernel set 1 && \
     genkernel all
 elif [[ "$choice" == "2" ]]; then
-    echo "sys-kernel/gentoo-kernel" >> /etc/portage/package.accept_keywords/gentoo-kernel
-    echo "virtual/dist-kernel" >> /etc/portage/package.accept_keywords/gentoo-kernel
-    emerge sys-kernel/linux-firmware
-    emerge sys-kernel/gentoo-kernel
-    etc-update --automode -3
-    emerge sys-kernel/gentoo-kernel
-    eselect kernel set 1
+    emerge sys-kernel/linux-firmware emerge sys-kernel/gentoo-kernel
 fi
 
 echo '31. Устанавливаем имя компьютера'
