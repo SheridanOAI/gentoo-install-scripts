@@ -81,6 +81,7 @@ echo '32 Устанавливаем среду управления сетевы
 emerge --noreplace netifrc
 
 echo '33. Устанавливаем пароль root'
+sed -i '1cmin=1,1,1,1,1' /etc/security/passwdqc.conf
 passwd
 
 echo '34. Установка системных программ'
