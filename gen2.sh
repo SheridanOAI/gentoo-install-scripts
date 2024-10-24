@@ -19,14 +19,16 @@ echo '20. Устанавливаем снимок portage'
 emerge-webrsync
 
 echo '21. Выставляем профиль'
-echo '1-KDE PLASMA, 2-GNOME, 3-DESKTOP'
+echo '1-KDE PLASMA, 2-KDE PLASMA(systemd), 3-GNOME, 4-DESKTOP'
 read choice
 
 if [[ "$choice" == "1" ]]; then
     eselect profile set 27
 elif [[ "$choice" == "2" ]]; then
-    eselect profile set 25
+    eselect profile set 28
 elif [[ "$choice" == "3" ]]; then
+    eselect profile set 25
+elif [[ "$choice" == "4" ]]; then
     eselect profile set 23
 fi
 
